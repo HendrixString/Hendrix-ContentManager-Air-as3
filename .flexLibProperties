@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="com.hendrix.contentManager.ContentManager"/>
+    <classEntry path="com.hendrix.contentManager.core.downloadManager.DownloadManager"/>
+    <classEntry path="com.hendrix.contentManager.core.downloadManager.DownloadLocal"/>
+    <classEntry path="com.hendrix.contentManager.core.downloadManager.core.DownloadStatus"/>
+    <classEntry path="com.hendrix.contentManager.core.downloadManager.core.DownloadSessionStatus"/>
+    <classEntry path="com.hendrix.contentManager.core.types.SWFContent"/>
+    <classEntry path="com.hendrix.contentManager.core.types.BaseContent"/>
+    <classEntry path="com.hendrix.contentManager.core.types.SoundContent"/>
+    <classEntry path="com.hendrix.contentManager.core.types.BitmapLoader"/>
+    <classEntry path="com.hendrix.contentManager.core.interfaces.IIdProcess"/>
+    <classEntry path="com.hendrix.contentManager.core.types.BitmapContent"/>
+    <classEntry path="com.hendrix.contentManager.core.manifest.LocalResource"/>
+    <classEntry path="com.hendrix.contentManager.core.types.BinaryContent"/>
+    <classEntry path="com.hendrix.contentManager.core.interfaces.IId"/>
+    <classEntry path="com.hendrix.contentManager.examples.AppContent"/>
+    <classEntry path="com.hendrix.contentManager.core.downloadManager.core.DownloadManagerSettings"/>
+    <classEntry path="com.hendrix.contentManager.core.downloadManager.core.Download"/>
+    <classEntry path="com.hendrix.contentManager.core.manifest.PackageManifest"/>
+    <classEntry path="com.hendrix.contentManager.Package"/>
+    <classEntry path="com.hendrix.contentManager.core.types.XMLContent"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>

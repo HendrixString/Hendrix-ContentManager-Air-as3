@@ -15,7 +15,7 @@ to your project, or import to your IDE of choice such as `Flash Builder 4.7`.
   - `Mp3`
 - each asset types has it's own dedicated parser/loader.
 
-## How to use
+## Guide
 1 Single pack loading:
 
 * use simple queries to the `Package` in string format by id:

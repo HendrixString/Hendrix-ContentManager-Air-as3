@@ -15,7 +15,7 @@ to your project, or import to your IDE of choice such as `Flash Builder 4.7`.
   - `Mp3`
 - each asset types has it's own dedicated parser/loader.
 
-## How to use
+## Guide
 1 Single pack loading:
 
 * use simple queries to the `Package` in string format by id:
@@ -79,6 +79,15 @@ private function cm_onComplete(pm:ProcessManager):void
 }
 ```
 
+### Dependencies
+* [`Hendrix Collection library`](https://github.com/HendrixString/Hendrix-Collection-Air)
+* [`Hendrix Process Manager library`](https://github.com/HendrixString/Hendrix-ProcessManager-AIR)
+
 ### Terms
-* completely free source code.
+* completely free source code. [Apache License, Version 2.0.](http://www.apache.org/licenses/LICENSE-2.0)
 * if you like it -> star or share it with others
+
+### Contact Author
+* [tomer.shalev@gmail.com](tomer.shalev@gmail.com)
+* [Google+ TomershalevMan](https://plus.google.com/+TomershalevMan/about)
+* [Facebook - HendrixString](https://www.facebook.com/HendrixString)

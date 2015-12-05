@@ -9,6 +9,8 @@ package com.hendrix.contentManager.core.manifest
     public static const TYPE_BINARY:          String    = "BINARY";
     public static const TYPE_SWF:             String    = "SWF";
     public static const TYPE_SOUND:           String    = "SOUND";
+    public static const TYPE_TEXT:            String    = "TEXT";
+    public static const TYPE_JSON:            String    = "JSON";
     public static const TYPE_UNAVAILABLE:     String    = "TYPE_UNAVAILABLE";
     
     public static const LocalResource_LOADED:   String = "LocalResource_LOADED";

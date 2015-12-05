@@ -9,11 +9,16 @@ package com.hendrix.contentManager
   import com.hendrix.contentManager.core.types.BaseContent;
   import com.hendrix.contentManager.core.types.BinaryContent;
   import com.hendrix.contentManager.core.types.BitmapContent;
+  import com.hendrix.contentManager.core.types.JSONContent;
   import com.hendrix.contentManager.core.types.SWFContent;
   import com.hendrix.contentManager.core.types.SoundContent;
+  import com.hendrix.contentManager.core.types.TextContent;
   import com.hendrix.contentManager.core.types.XMLContent;
   import com.hendrix.processManager.core.interfaces.IProcess;
   import com.hendrix.processManager.core.types.BaseProcess;
+  
+  import flash.filesystem.File;
+  import flash.net.URLRequest;
   
   public class Package extends BaseProcess
   {
@@ -25,6 +30,8 @@ package com.hendrix.contentManager
     protected var _sounds:                        IdCollection          = null;
     protected var _binaries:                      IdCollection          = null;
     protected var _swfs:                          IdCollection          = null;
+    protected var _txts:                          IdCollection          = null;
+    protected var _jsons:                         IdCollection          = null;
     
     private var _manifest:                        PackageManifest       = null;
     
@@ -39,6 +46,8 @@ package com.hendrix.contentManager
       _sounds                           = new IdCollection("id");
       _binaries                         = new IdCollection("id");
       _swfs                             = new IdCollection("id");
+      _txts                             = new IdCollection("id");
+      _jsons                            = new IdCollection("id");
     }
     
     /**
@@ -46,8 +55,24 @@ package com.hendrix.contentManager
      * 
      */
     public function enqueue($url:String, $id:String, $type:String = "TYPE_UNAVAILABLE"):void
-    {
-      _manifest.addResourceData(new LocalResource($id, $url, $type));
+    {      
+      var file:     File  = ($url.indexOf(':') == -1) ? File.applicationDirectory.resolvePath($url) : new File($url);
+      
+      if(file.isDirectory) {
+        var files:  Array = file.getDirectoryListing();
+        
+        for each (var f:File in files) {          
+          enqueue(f.url, null, $type);
+        }
+        
+        trace('dir');
+      }
+      else {
+        var arr:    Array = file.nativePath.split(File.separator);
+
+        _manifest.addResourceData(new LocalResource($id ? $id : arr[arr.length - 1], $url, $type));
+      }
+
     }
     
     /**
@@ -95,6 +120,10 @@ package com.hendrix.contentManager
             lr.type = LocalResource.TYPE_SOUND;
           else if(postFix == "swf")
             lr.type = LocalResource.TYPE_SWF;
+          else if(postFix == "json")
+            lr.type = LocalResource.TYPE_JSON;
+          else if(postFix == "txt")
+            lr.type = LocalResource.TYPE_TEXT;
           else
             lr.type = LocalResource.TYPE_BINARY;
         }
@@ -126,6 +155,16 @@ package com.hendrix.contentManager
           case LocalResource.TYPE_SWF:
             idp = new SWFContent(dls[ix].id, dls[ix].bytes);
             _swfs.add(idp);
+            idp.process(onFinishedProcessing);
+            break;
+          case LocalResource.TYPE_TEXT:
+            idp = new TextContent(dls[ix].id, dls[ix].bytes);
+            _txts.add(idp);
+            idp.process(onFinishedProcessing);
+            break;
+          case LocalResource.TYPE_JSON:
+            idp = new JSONContent(dls[ix].id, dls[ix].bytes);
+            _jsons.add(idp);
             idp.process(onFinishedProcessing);
             break;
           default:
@@ -221,6 +260,12 @@ package com.hendrix.contentManager
         case LocalResource.TYPE_XML:
           return _xmls.getById($id) as BaseContent;
           break;
+        case LocalResource.TYPE_TEXT:
+          return _txts.getById($id) as BaseContent;
+          break;
+        case LocalResource.TYPE_JSON:
+          return _jsons.getById($id) as BaseContent;
+          break;
         case LocalResource.TYPE_UNAVAILABLE:
           var bc:BaseContent = _xmls.getById($id) as BaseContent;
           if (bc)
@@ -232,6 +277,10 @@ package com.hendrix.contentManager
           else if (bc = _sounds.getById($id) as BaseContent)
             return bc;
           else if (bc = _swfs.getById($id) as BaseContent)
+            return bc;
+          else if (bc = _txts.getById($id) as BaseContent)
+            return bc;
+          else if (bc = _jsons.getById($id) as BaseContent)
             return bc;
           
           break;
@@ -256,6 +305,10 @@ package com.hendrix.contentManager
         idc = _sounds;
       else if (bc = _swfs.getById($id) as BaseContent)
         idc = _swfs;
+      else if (bc = _txts.getById($id) as BaseContent)
+        idc = _txts;
+      else if (bc = _jsons.getById($id) as BaseContent)
+        idc = _jsons;
       
       bc.dispose();
       _manifest.getResourceData($id).loaded = LocalResource.LocalResource_NOTLOADED;
@@ -292,11 +345,7 @@ package com.hendrix.contentManager
        * TODO: free resources, bitmaps, textures, xmls etc..
        */
       
-      disposeAllFromCollection(_bitmaps);
-      disposeAllFromCollection(_binaries);
-      disposeAllFromCollection(_sounds);
-      disposeAllFromCollection(_xmls);
-      disposeAllFromCollection(_swfs);
+      unloadPackage();
       
       _manifest = null;
     }
@@ -311,6 +360,8 @@ package com.hendrix.contentManager
       disposeAllFromCollection(_sounds);
       disposeAllFromCollection(_xmls);
       disposeAllFromCollection(_swfs);
+      disposeAllFromCollection(_txts);
+      disposeAllFromCollection(_jsons);
     }
     
     /**
@@ -349,6 +400,16 @@ package com.hendrix.contentManager
         case LocalResource.TYPE_XML:
         {
           vecBC = _xmls.vec;
+          break;
+        }
+        case LocalResource.TYPE_TEXT:
+        {
+          vecBC = _txts.vec;
+          break;
+        }
+        case LocalResource.TYPE_JSON:
+        {
+          vecBC = _jsons.vec;
           break;
         }
           

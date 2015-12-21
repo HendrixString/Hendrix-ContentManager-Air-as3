@@ -61,7 +61,7 @@ package com.hendrix.contentManager
       if(file.isDirectory) {
         var files:  Array = file.getDirectoryListing();
         
-        for each (var f:File in files) {          
+        for each (var f: File in files) {          
           enqueue(f.url, null, $type);
         }
         

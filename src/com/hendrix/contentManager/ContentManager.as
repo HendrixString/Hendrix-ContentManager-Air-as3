@@ -20,7 +20,8 @@ package com.hendrix.contentManager
     {
       var pack: Package = _packages.getById($pkgId) ? _packages.getById($pkgId) as Package : new Package($pkgId);
       
-      _packages.add(pack);
+      if(!_packages.hasById($pkgId))
+        _packages.add(pack);
       
       return pack;
     }

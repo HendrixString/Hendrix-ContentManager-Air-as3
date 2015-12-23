@@ -68,7 +68,7 @@ package com.hendrix.contentManager
         trace('dir');
       }
       else {
-        var arr:    Array = file.nativePath.split(File.separator);
+        var arr:    Array = file.url.split(File.separator);
 
         _manifest.addResourceData(new LocalResource($id ? $id : arr[arr.length - 1], $url, $type));
       }

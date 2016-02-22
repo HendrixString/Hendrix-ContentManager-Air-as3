@@ -21,7 +21,7 @@ to your project, or import to your IDE of choice such as `Flash Builder 4.7`.
 * use simple queries to the `Package` in string format by id:
 `pack.getContentById("content_id")`
 
-```
+```actionscript
 
 public function loadSinglePack():void
 {      
@@ -53,7 +53,7 @@ private function pack_onFinished(pack:Package):void
 * use simple queries to the `ContentManager` in string format by id:
 `contentManager.getContentById("pack_id::content_id")`
 
-```
+```actionscript
 private var cm:ContentManager = new ContentManager();
 
 public function loadMultiPacks():void
